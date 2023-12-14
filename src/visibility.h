@@ -164,7 +164,7 @@ MARK_VISIBLE (gpgrt_setenv)
 MARK_VISIBLE (gpgrt_mkdir)
 MARK_VISIBLE (gpgrt_chdir)
 MARK_VISIBLE (gpgrt_getcwd)
-MARK_VISIBLE (gpgrt_access);
+MARK_VISIBLE (gpgrt_access)
 
 MARK_VISIBLE (gpgrt_b64dec_start)
 MARK_VISIBLE (gpgrt_b64dec_proc)
@@ -208,6 +208,7 @@ MARK_VISIBLE (gpgrt_wait_process)
 MARK_VISIBLE (gpgrt_wait_processes)
 MARK_VISIBLE (gpgrt_kill_process)
 MARK_VISIBLE (gpgrt_release_process)
+MARK_VISIBLE (gpgrt_close_all_fds)
 #endif
 
 MARK_VISIBLE (gpgrt_argparse)
@@ -215,14 +216,14 @@ MARK_VISIBLE (gpgrt_argparser)
 MARK_VISIBLE (gpgrt_usage)
 MARK_VISIBLE (gpgrt_strusage)
 MARK_VISIBLE (gpgrt_set_strusage)
-MARK_VISIBLE (gpgrt_set_fixed_string_mapper);
-MARK_VISIBLE (gpgrt_set_usage_outfnc);
-MARK_VISIBLE (gpgrt_set_confdir);
+MARK_VISIBLE (gpgrt_set_fixed_string_mapper)
+MARK_VISIBLE (gpgrt_set_usage_outfnc)
+MARK_VISIBLE (gpgrt_set_confdir)
 
-MARK_VISIBLE (gpgrt_cmp_version);
+MARK_VISIBLE (gpgrt_cmp_version)
 
-MARK_VISIBLE (gpgrt_fnameconcat);
-MARK_VISIBLE (gpgrt_absfnameconcat);
+MARK_VISIBLE (gpgrt_fnameconcat)
+MARK_VISIBLE (gpgrt_absfnameconcat)
 
 
 
@@ -396,6 +397,7 @@ MARK_VISIBLE (gpgrt_absfnameconcat);
 #define gpgrt_wait_processes         _gpgrt_USE_UNDERSCORED_FUNCTION
 #define gpgrt_kill_process           _gpgrt_USE_UNDERSCORED_FUNCTION
 #define gpgrt_release_process        _gpgrt_USE_UNDERSCORED_FUNCTION
+#define gpgrt_close_all_fds          _gpgrt_USE_UNDERSCORED_FUNCTION
 
 #define gpgrt_argparse                _gpgrt_USE_UNDERSCORED_FUNCTION
 #define gpgrt_argparser               _gpgrt_USE_UNDERSCORED_FUNCTION
@@ -411,6 +413,10 @@ MARK_VISIBLE (gpgrt_absfnameconcat);
 #define gpgrt_absfnameconcat        _gpgrt_USE_UNDERSCORED_FUNCTION
 
 /* Windows specific functions.  */
+#define gpgrt_free_wchar            _gpgrt_USE_UNDERSCORED_FUNCTION
+#define gpgrt_utf8_to_wchar         _gpgrt_USE_UNDERSCORED_FUNCTION
+#define gpgrt_wchar_to_utf8         _gpgrt_USE_UNDERSCORED_FUNCTION
+#define gpgrt_fname_to_wchar        _gpgrt_USE_UNDERSCORED_FUNCTION
 #define gpgrt_w32_reg_query_string  _gpgrt_USE_UNDERSCORED_FUNCTION
 
 

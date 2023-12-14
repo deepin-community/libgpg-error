@@ -244,6 +244,7 @@ parse_config_h (const char *fname)
     {
       fprintf (stderr, "%s:%d: error reading file: %s\n",
                fname, lnr, strerror (errno));
+      fclose (fp);
       return 1;
     }
 
@@ -562,28 +563,30 @@ write_special (const char *fname, int lnr, const char *tag)
       else
         fputs ("ssize_t", stdout);
     }
-  else if (!strcmp (tag, "define:pid_t"))
+  else if (!strcmp (tag, "SOCKET_t"))
     {
-      if (have_sys_types_h)
+      if (have_w32_system)
+        fputs ("uintptr_t", stdout);
+      else
+        fputs ("int", stdout);
+    }
+  else if (!strcmp (tag, "define:gpgrt_process_t"))
+    {
+      if (have_w32_system || have_w64_system)
         {
-          if (!sys_types_h_included)
-            {
-              fputs ("#include <sys/types.h>\n", stdout);
-              sys_types_h_included = 1;
-            }
-        }
-      else if (have_w64_system)
-        {
-          if (!stdint_h_included && have_stdint_h)
-            {
-              fputs ("#include <stdint.h>\n", stdout);
-              stdint_h_included = 1;
-            }
-          fputs ("typedef int64_t pid_t\n", stdout);
+          fputs ("typedef void *gpgrt_process_t;\n", stdout);
         }
       else
         {
-          fputs ("typedef int     pid_t\n", stdout);
+          if (have_sys_types_h)
+            {
+              if (!sys_types_h_included)
+                {
+                  fputs ("#include <sys/types.h>\n", stdout);
+                  sys_types_h_included = 1;
+                }
+            }
+          fputs ("typedef pid_t gpgrt_process_t;\n", stdout);
         }
     }
   else if (!strcmp (tag, "include:err-sources"))
@@ -605,11 +608,6 @@ write_special (const char *fname, int lnr, const char *tag)
       if (!strcmp (host_os, "mingw32"))
         {
           include_file (fname, lnr, "w32-add.h", write_line);
-        }
-      else if (!strcmp (host_os, "mingw32ce"))
-        {
-          include_file (fname, lnr, "w32-add.h", write_line);
-          include_file (fname, lnr, "w32ce-add.h", write_line);
         }
     }
   else if (!strcmp (tag, "include:lock-obj"))
