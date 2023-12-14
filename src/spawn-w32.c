@@ -23,7 +23,7 @@
 
 #include <config.h>
 
-#if !defined(HAVE_W32_SYSTEM) || defined (HAVE_W32CE_SYSTEM)
+#if !defined(HAVE_W32_SYSTEM)
 #error This code is only used on W32.
 #endif
 
@@ -64,21 +64,6 @@
  */
 #define fd_to_handle(a)  ((HANDLE)(a))
 #define handle_to_fd(a)  ((intptr_t)(a))
-
-/* For pid_t and HANDLE:
-
- * We assume that a HANDLE can be represented by an int which should
- * be true for all i386 systems.
- *
- * On 64-bit machine, it is no longer true, as a type, however, as
- * long as the range of the value in the type HANDLE can be
- * represented by an int, it works.
- *
- * FIXME: Breaking ABI for pid_t will be needed when the value won't
- * fit within 32-bit range on 64-bit machine.
- */
-#define pid_to_handle(a) ((HANDLE)(a))
-#define handle_to_pid(a) ((int)(a))
 
 
 /* Return the maximum number of currently allowed open file
@@ -380,12 +365,42 @@ _gpgrt_make_pipe (int filedes[2], estream_t *r_fp, int direction, int nonblock)
 }
 
 
+/*
+ * UNION PROCESS_ID:
+ *
+ * gpgrt_process_t is an object which represents process handle.
+ * It must be same size as HANDLE and must have same bit pattern.
+ */
+union process {
+  gpgrt_process_t process_id;
+  HANDLE process_handle;
+};
+
+static gpgrt_process_t
+convert_from_handle (HANDLE process_handle)
+{
+  union process u;
+
+  u.process_handle = process_handle;
+  return u.process_id;
+}
+
+static HANDLE
+convert_from_process (gpgrt_process_t process_id)
+{
+  union process u;
+
+  u.process_id = process_id;
+  return u.process_handle;
+}
+
+
 /* Fork and exec the PGMNAME, see gpgrt-int.h for details.  */
 gpg_err_code_t
 _gpgrt_spawn_process (const char *pgmname, const char *argv[],
-                      int *except, void (*preexec)(void), unsigned int flags,
+                      int *except, unsigned int flags,
                       estream_t *r_infp, estream_t *r_outfp, estream_t *r_errfp,
-                      pid_t *pid)
+                      gpgrt_process_t *r_process_id)
 {
   gpg_err_code_t err;
   SECURITY_ATTRIBUTES sec_attr;
@@ -421,7 +436,7 @@ _gpgrt_spawn_process (const char *pgmname, const char *argv[],
     *r_outfp = NULL;
   if (r_errfp)
     *r_errfp = NULL;
-  *pid = (pid_t)(-1); /* Always required.  */
+  *r_process_id = convert_from_handle (INVALID_HANDLE_VALUE);
 
   if (r_infp)
     {
@@ -527,15 +542,14 @@ _gpgrt_spawn_process (const char *pgmname, const char *argv[],
     return err;
 
   if (inpipe[0] == INVALID_HANDLE_VALUE)
-    nullhd[0] = w32_open_null (0);
-  if (outpipe[1] == INVALID_HANDLE_VALUE)
-    nullhd[1] = w32_open_null (1);
-  if (errpipe[1] == INVALID_HANDLE_VALUE)
-    nullhd[2] = w32_open_null (1);
-
-  /* Start the process.  Note that we can't run the PREEXEC function
-     because this might change our own environment. */
-  (void)preexec;
+    nullhd[0] = ((flags & GPGRT_SPAWN_KEEP_STDIN)?
+                 GetStdHandle (STD_INPUT_HANDLE) : w32_open_null (0));
+   if (outpipe[1] == INVALID_HANDLE_VALUE)
+    nullhd[1] = ((flags & GPGRT_SPAWN_KEEP_STDOUT)?
+                 GetStdHandle (STD_OUTPUT_HANDLE) : w32_open_null (1));
+   if (errpipe[1] == INVALID_HANDLE_VALUE)
+    nullhd[2] = ((flags & GPGRT_SPAWN_KEEP_STDOUT)?
+                 GetStdHandle (STD_ERROR_HANDLE) : w32_open_null (1));
 
   memset (&si, 0, sizeof si);
   si.cb = sizeof (si);
@@ -631,7 +645,7 @@ _gpgrt_spawn_process (const char *pgmname, const char *argv[],
   if (r_errfp)
     *r_errfp = errfp;
 
-  *pid = handle_to_pid (pi.hProcess);
+  *r_process_id = convert_from_handle (pi.hProcess);
   return 0;
 }
 
@@ -639,7 +653,10 @@ _gpgrt_spawn_process (const char *pgmname, const char *argv[],
 /* Fork and exec the PGMNAME using FDs, see gpgrt-int.h for details.  */
 gpg_err_code_t
 _gpgrt_spawn_process_fd (const char *pgmname, const char *argv[],
-                         int infd, int outfd, int errfd, pid_t *pid)
+                         int infd, int outfd, int errfd,
+                         int (*spawn_cb) (void *),
+                         void *spawn_cb_arg,
+                         gpgrt_process_t *r_process_id)
 {
   gpg_err_code_t err;
   SECURITY_ATTRIBUTES sec_attr;
@@ -648,14 +665,22 @@ _gpgrt_spawn_process_fd (const char *pgmname, const char *argv[],
   char *cmdline;
   int ret, i;
   HANDLE stdhd[3];
+  int ask_inherit = 0;
+
+  if (spawn_cb)
+    ask_inherit = (*spawn_cb) (spawn_cb_arg);
 
   /* Setup return values.  */
-  *pid = (pid_t)(-1);
+  *r_process_id = convert_from_handle (INVALID_HANDLE_VALUE);
 
   /* Prepare security attributes.  */
   memset (&sec_attr, 0, sizeof sec_attr );
   sec_attr.nLength = sizeof sec_attr;
-  sec_attr.bInheritHandle = FALSE;
+
+  if (ask_inherit)
+    sec_attr.bInheritHandle = TRUE;
+  else
+    sec_attr.bInheritHandle = FALSE;
 
   /* Build the command line.  */
   err = build_w32_commandline (pgmname, argv, &cmdline);
@@ -714,23 +739,24 @@ _gpgrt_spawn_process_fd (const char *pgmname, const char *argv[],
   ResumeThread (pi.hThread);
   CloseHandle (pi.hThread);
 
-  *pid = handle_to_pid (pi.hProcess);
+  *r_process_id = convert_from_handle (pi.hProcess);
   return 0;
 }
 
 
 /* See gpgrt-int.h for a description.  */
 gpg_err_code_t
-_gpgrt_wait_process (const char *pgmname, pid_t pid, int hang, int *r_exitcode)
+_gpgrt_wait_process (const char *pgmname, gpgrt_process_t process_id,
+                     int hang, int *r_exitcode)
 {
-  return _gpgrt_wait_processes (&pgmname, &pid, 1, hang, r_exitcode);
+  return _gpgrt_wait_processes (&pgmname, &process_id, 1, hang, r_exitcode);
 }
 
 
 /* See gpgrt-int.h for a description.  */
 gpg_err_code_t
-_gpgrt_wait_processes (const char **pgmnames, pid_t *pids, size_t count,
-                       int hang, int *r_exitcodes)
+_gpgrt_wait_processes (const char **pgmnames, gpgrt_process_t *process_ids,
+                       size_t count, int hang, int *r_exitcodes)
 {
   gpg_err_code_t ec = 0;
   size_t i;
@@ -743,13 +769,15 @@ _gpgrt_wait_processes (const char **pgmnames, pid_t *pids, size_t count,
 
   for (i = 0; i < count; i++)
     {
+      HANDLE process_handle = convert_from_process (process_ids[i]);
+
       if (r_exitcodes)
         r_exitcodes[i] = -1;
 
-      if (pids[i] == (pid_t)(-1))
+      if (process_handle == INVALID_HANDLE_VALUE)
         return GPG_ERR_INV_VALUE;
 
-      procs[i] = pid_to_handle (pids[i]);
+      procs[i] = process_handle;
     }
 
   _gpgrt_pre_syscall ();
@@ -774,9 +802,9 @@ _gpgrt_wait_processes (const char **pgmnames, pid_t *pids, size_t count,
 
           if (! GetExitCodeProcess (procs[i], &exc))
             {
-              _gpgrt_log_error (_("error getting exit code of process %d:"
+              _gpgrt_log_error (_("error getting exit code of process %p:"
                                   " ec=%d\n"),
-                                (int) pids[i], (int)GetLastError ());
+                                process_ids[i], (int)GetLastError ());
               ec = GPG_ERR_GENERAL;
             }
           else if (exc)
@@ -811,7 +839,7 @@ _gpgrt_wait_processes (const char **pgmnames, pid_t *pids, size_t count,
 /* See gpgrt-int.h for a description.  */
 gpg_err_code_t
 _gpgrt_spawn_process_detached (const char *pgmname, const char *argv[],
-                               const char *envp[] )
+                               const char *envp[])
 {
   gpg_err_code_t err;
   SECURITY_ATTRIBUTES sec_attr;
@@ -894,27 +922,32 @@ _gpgrt_spawn_process_detached (const char *pgmname, const char *argv[],
    gnupg_wait_process must be called to actually remove the process
    from the system.  An invalid PID is ignored.  */
 void
-_gpgrt_kill_process (pid_t pid)
+_gpgrt_kill_process (gpgrt_process_t process_id)
 {
-  if (pid != (pid_t) INVALID_HANDLE_VALUE)
-    {
-      HANDLE process = (HANDLE) pid;
+  HANDLE process_handle = convert_from_process (process_id);
 
+  if (process_handle != INVALID_HANDLE_VALUE)
+    {
       /* Arbitrary error code.  */
       _gpgrt_pre_syscall ();
-      TerminateProcess (process, 1);
+      TerminateProcess (process_handle, 1);
       _gpgrt_post_syscall ();
     }
 }
 
 
 void
-_gpgrt_release_process (pid_t pid)
+_gpgrt_release_process (gpgrt_process_t process_id)
 {
-  if (pid != (pid_t)INVALID_HANDLE_VALUE)
-    {
-      HANDLE process = (HANDLE)pid;
+  HANDLE process_handle = convert_from_process (process_id);
 
-      CloseHandle (process);
-    }
+  if (process_handle != INVALID_HANDLE_VALUE)
+    CloseHandle (process_handle);
+}
+
+void
+_gpgrt_close_all_fds (int from, int *keep_fds)
+{
+  (void)from;
+  (void)keep_fds;
 }

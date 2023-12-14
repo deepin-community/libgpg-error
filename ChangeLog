@@ -1,3 +1,712 @@
+2023-04-06  Werner Koch  <wk@gnupg.org>
+
+	Release 1.47.
+	+ commit a25cea92798a5ece3f49924911507f5335915ecc
+
+
+	build: Make distcheck work again.
+	+ commit bcc16b4cd00f02fbb824a9b6fc69e00fc6458b19
+	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS): Add
+	with --install-gpg-error-config.
+
+	core: New error codes for PUKs and reset codes.
+	+ commit 0262cd3371cf9794be94851955fec099b0e1fab5
+	* src/err-codes.h.in (GPG_ERR_BAD_PUK): New
+	(GPG_ERR_NO_RESET_CODE, GPG_ERR_BAD_RESET_CODE): New.
+
+2023-04-04  NIIBE Yutaka  <gniibe@fsij.org>
+
+	core: Add GPG_ERR_SOURCE_TKD.
+	+ commit 1a382660855fb46da86980797acc50af1718c359
+	* src/err-sources.h.in (GPG_ERR_SOURCE_TKD): New.
+
+2023-04-01  NIIBE Yutaka  <gniibe@fsij.org>
+
+	m4: Fix behavior with older gpg-error-config and gpgrt-config.
+	+ commit c61e831b6f0c3c4bc9047e583ad3261bd9babefc
+	* src/gpg-error.m4 (_AM_PATH_GPGRT_CONFIG): Set the variable
+	gpg_error_config_version on error with gpgrt-config.
+
+2023-03-23  NIIBE Yutaka  <gniibe@fsij.org>
+
+	m4: Fallback to $possible_libdir1, when not found with $CC.
+	+ commit ed36ba06f907c0d67f8a60930dc329d58a4cd77d
+	* src/gpg-error.m4: Try $possible_libdir1 for gpgrt_libdir.
+
+2023-03-21  Werner Koch  <wk@gnupg.org>
+
+	Avoid segv in logging with improper use of the "socket://" .
+	+ commit 68333be63042be281a497a5751474e9e3d119dc3
+	* src/logging.c (fun_writer): Protect calling socket_dir_cb if not
+	set.
+
+2023-03-15  Werner Koch  <wk@gnupg.org>
+
+	build: Improve the beta numbering by autogen.sh.
+	+ commit fbbc55b3febef6d22dae5e2675c75b1d1f561b09
+	* autogen.sh: Introduce a 3rd matchstr and simplify rules.
+
+2022-12-16  Werner Koch  <wk@gnupg.org>
+
+	core: Fix translations of --help.
+	+ commit 885a287a57cf060b4c5b441822c09d23b8dee2bd
+	* src/argparse.c (show_help): Do not translate the empty string.
+
+2022-12-13  pengyi  <pengyi37@huawei.com>
+	    NIIBE Yutaka  <gniibe@fsij.org>
+
+	Add more tests for t-printf and t-strerror.
+	+ commit 72e0fb3fc858301de7b200e1c08da6904ab44bc0
+	* tests/t-printf.c (check_fwrite): New.
+	(main): Add check_fwrite.
+	* tests/t-strerror.c (main): Add three more cases to LIST.
+
+2022-12-05  NIIBE Yutaka  <gniibe@fsij.org>
+
+	Handle strerror_r failure on non-GNU systems.
+	+ commit be94bcf6aace55e319a203c6b60e31b1c204b0dc
+	* src/strerror.c (system_strerror_r): Make sure to fill the buffer.
+
+2022-11-29  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpgrt-config: Support a simple invocation.
+	+ commit 3f812a0f5df8aaa82372ea0c40573703119ed83d
+	* src/gpgrt-config.in (determine_gpgrt_libdir): New.
+
+2022-11-29  NIIBE Yutaka  <gniibe@fsij.org>
+	    Andreas Metzler  <ametzler@debian.org>
+
+	doc: Add man page of gpgrt-config.
+	+ commit 4c6890aca2d0234fdc3da4678a003160091dc0dd
+	* doc/Makefile.am (myman_pages): Add gpgrt-config.1.
+	* doc/gpgrt.texi: Add gpgrt-config.1.
+
+2022-11-15  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpg-error.m4: Factor out _AM_PATH_GPGRT_CONFIG.
+	+ commit 788f63347eda2d35ba5d9dad5e339743343d2f66
+	* src/gpg-error.m4 (_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG): New.
+	(_AM_PATH_GPGRT_CONFIG): New.
+	(AM_PATH_GPG_ERROR): Use _AM_PATH_POSSIBLE_GPG_ERROR_CONFIG
+	and _AM_PATH_GPGRT_CONFIG.
+
+	Revert "spawn: Expose spawn functions."
+	+ commit c580094dbe97249caebdedbf0f584e604fd20240
+	This reverts commit 43c1e85fe29a52a9debc068d97c5860a4694b821.
+
+2022-11-04  NIIBE Yutaka  <gniibe@fsij.org>
+
+	spawn: Introduce gpgrt_process_t and use it for spawn API.
+	+ commit 5d30adb5ad376a07576b258b9395adadf5576867
+	* configure.ac (AC_FUNC_FORK): No use.
+	* src/gpg-error.h.in (@define:gpgrt_process_t@): New.
+	(@define:pid_t@): Remove.
+	(gpgrt_spawn_process, gpgrt_spawn_process_fd): Use gpgrt_process_t.
+	(gpgrt_wait_process, gpgrt_wait_processes): Likewise.
+	(gpgrt_kill_process, gpgrt_release_process): Likewise.
+	* src/gpgrt-int.h (_gpgrt_spawn_process): Likewise.
+	(_gpgrt_spawn_process_fd): Likewise.
+	(_gpgrt_wait_process, _gpgrt_wait_processes): Likewise.
+	(_gpgrt_kill_process, _gpgrt_release_process): Likewise.
+	* src/mkheader.c (write_special): Handle @define:gpgrt_process_t@.
+	Remove handling of @define:pid_t@.
+	* src/spawn-posix.c (_gpgrt_spawn_process): Use gpgrt_process_t.
+	(_gpgrt_spawn_process_fd): Likewise.
+	(_gpgrt_wait_process, _gpgrt_wait_processes): Likewise.
+	(_gpgrt_kill_process, _gpgrt_release_process): Likewise.
+	* src/spawn-w32.c (_gpgrt_spawn_process): Use gpgrt_process_t.
+	(_gpgrt_spawn_process_fd): Likewise.
+	(_gpgrt_wait_process, _gpgrt_wait_processes): Likewise.
+	(_gpgrt_kill_process, _gpgrt_release_process): Likewise.
+
+2022-10-31  NIIBE Yutaka  <gniibe@fsij.org>
+
+	spawn: Fix spawn_cb of gpgrt_spawn_process_fd.
+	+ commit 6c20e8393eba4a9f330143b2158e28ea594cbadd
+	* src/gpg-error.def.in (gpgrt_close_all_fds): New.
+	* src/gpg-error.vers (gpgrt_close_all_fds): New.
+	* src/gpg-error.h.in (GPGRT_SPAWN_INHERIT_FILE): New.
+	(gpgrt_spawn_process_fd): SPAWN_CB having return value.
+	* src/gpgrt-int.h (_gpgrt_spawn_process_fd): SPAWN_CB change.
+	* src/spawn-posix.c (_gpgrt_close_all_fds): Rename from close_all_fds,
+	and export it.
+	(do_exec): Support the case not closing fds.
+	(_gpgrt_spawn_process_fd): Handle return value of SPAWN_CB to
+	determine closing all fds or not.
+	* src/spawn-w32.c (_gpgrt_spawn_process_fd): Run SPAWN_CB.
+	(_gpgrt_close_all_fds): New.
+	* src/visibility.c (gpgrt_close_all_fds): New.
+	* src/visibility.h (gpgrt_close_all_fds): New.
+
+2022-10-27  NIIBE Yutaka  <gniibe@fsij.org>
+
+	spawn: Expose spawn functions.
+	+ commit 43c1e85fe29a52a9debc068d97c5860a4694b821
+	* src/gpg-error.def.in: Update.
+	* src/gpg-error.vers: Update.
+	* src/gpg-error.h.in: Add declarations.
+	* src/visibility.c: Add implementations.
+	* src/visibility.h: Expose them.
+
+2022-10-20  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpgrt_spawn_process, gpgrt_spawn_process_fd: Change the API.
+	+ commit 5ad97e8fa62882b2014a67b4e57dab3b37ccaf4c
+	* src/gpg-error.h.in (gpgrt_spawn_process): Remove PREEXEC argument.
+	(gpgrt_spawn_process_fd): Add AFTER_FORK_CB and AFTER_FORK_CB_ARG.
+	* src/gpgrt-int.h (_gpgrt_spawn_process): Remove PREEXEC argument.
+	(_gpgrt_spawn_process_fd): Add AFTER_FORK_CB and AFTER_FORK_CB_ARG.
+	* src/spawn-posix.c (do_exec): Remove PREEXEC argument.
+	(_gpgrt_spawn_process): Remove PREEXEC argument.
+	(_gpgrt_spawn_process_fd): Add AFTER_FORK_CB and AFTER_FORK_CB_ARG.
+	(_gpgrt_spawn_process_detached): Follow the change of do_exec.
+	* src/spawn-w32.c (_gpgrt_spawn_process): Remove PREEXEC argument.
+	(_gpgrt_spawn_process_fd): Add AFTER_FORK_CB and AFTER_FORK_CB_ARG.
+	* src/visibility.c (gpgrt_spawn_process): Remove PREEXEC argument.
+	(gpgrt_spawn_process_fd): Add AFTER_FORK_CB and AFTER_FORK_CB_ARG.
+
+2022-10-19  NIIBE Yutaka  <gniibe@fsij.org>
+
+	spawn: Update changes from gnupg.
+	+ commit 494886acb0bf3d536f4e620340e42c8ec8947742
+	* src/gpg-error.h.in (GPGRT_SPAWN_KEEP_STDIN): New.
+	(GPGRT_SPAWN_KEEP_STDOUT, GPGRT_SPAWN_KEEP_STDERR): New.
+	* src/gpgrt-int.h: Add comment.
+	* src/spawn-posix.c (do_exec): Add the argument FLAGS.
+	(_gpgrt_spawn_process): Add FLAGS.
+	(_gpgrt_spawn_process_fd): Follow the change.
+	(_gpgrt_spawn_process_detached): Likewise.
+	* src/spawn-w32.c (_gpgrt_spawn_process): Handle FLAGS.
+
+2022-10-11  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Remove potomo from repo.
+	+ commit be4f289a5c09f43cb6b893bdc709a743a100be15
+	* potomo: Remove.
+
+2022-10-07  Werner Koch  <wk@gnupg.org>
+
+	Release 1.46.
+	+ commit ea031873aa9642831017937fd33e9009d514ee07
+
+
+2022-09-21  Damien Goutte-Gattat  <dgouttegattat@incenp.org>
+
+	m4: Fix detection of gpgrt's libdir.
+	+ commit 628cb1a786bd5d420be17c2e9ffd407f4fbf517e
+	* src/gpg-error.m4 (GPGRT_CONFIG): Handle the case where none of the
+	system lib directories contain a pkgconfig subdirectory.
+
+2022-09-19  Damien Goutte-Gattat via Gnupg-devel  <gnupg-devel@gnupg.org>
+
+	build: Fix installation of gpg-error-config.1.
+	+ commit b5043421d2b3ff5999e88808737ff400bf15b0ee
+	* doc/Makefile.am (myman_pages): Rename man page to gpg-error-config.1
+	and only install if gpg-error-config itself is installed.
+
+2022-09-15  NIIBE Yutaka  <gniibe@fsij.org>
+
+	yat2m: Use __noreturn__ attribute.
+	+ commit a86ad1cbb6bd83cb30ab87f5ad1c70077288a8da
+	* doc/yat2m.c (ATTR_NR_PRINTF): Use __noreturn__.
+
+	Remove extra semicolons.
+	+ commit 6f103890e9728072e1c9c1e0a1d7f87220d8eecc
+	* src/gpgrt-int.h: Remove extra.
+	* src/visibility.h: Likewise.
+
+2022-09-08  NIIBE Yutaka  <gniibe@fsij.org>
+
+	Silence compiler warnings.
+	+ commit 10dc853291a1786f061e01cdcf477be0c31441b1
+	* src/argparse.c (show_version): It's no args.
+	(_gpgrt_log_get_fd, _gpgrt_log_get_stream): Likewise.
+
+2022-08-25  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpgrt-config: Strip system paths for --cflags and --libs.
+	+ commit 4615816f71e91f4c3bb8b0e4122dd153ec7c1927
+	* src/gpgrt-config.in: Strip -I and -L with system paths.
+
+2022-08-17  Ingo Klöcker  <dev@ingo-kloecker.de>
+
+	build: Omit -L<libdir> for standard paths on some 64-bit systems.
+	+ commit fcb19dbfd49338e5c282e2853d71d66a0594d3c1
+	* configure.ac (GPG_ERROR_CONFIG_LIBS): Handle the case $libdir =
+	'${exec_prefix}/lib64'.
+
+2022-08-15  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Only install gpg-error-config when enabled.
+	+ commit 0b47de9c719b0ed0da0791f0525de073737bde5a
+	* configure.ac (INSTALL_GPG_ERROR_CONFIG): New.
+	* src/Makefile.am (bin_SCRIPTS, noinst_SCRIPTS): Conditionalize.
+
+2022-08-02  Werner Koch  <wk@gnupg.org>
+
+	w32: Convert REG_DWORD values to a string.
+	+ commit 745d333cf7b5b6fee62e3b26c8a2ccc004e017da
+	* src/w32-reg.c (_gpgrt_w32_reg_query_string): Handle REG_DWORD
+
+2022-07-28  NIIBE Yutaka  <gniibe@fsij.org>
+
+	w32: Fix for bidirectional pipe.
+	+ commit 25701f105b947500f920eb5a13e328f8f7843d38
+	* src/estream.c (func_w32_seek): Return an error with ESPIPE, when
+	it's pipe.
+
+2022-07-22  NIIBE Yutaka  <gniibe@fsij.org>
+
+	doc: Update gpgrt.texi for old gpg-error-config script.
+	+ commit 1e7d0d3ef627f3cdee70b8409f04d7e2ecf4fdd6
+	* doc/gpgrt.texi: Address pkg-config.  Manual entry is for
+	gpg-error-config.  gpgrt-config is an internal command for
+	gpg-error.m4.
+
+2022-07-19  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Fix configure script.
+	+ commit 64bcee3c467d837694d225e15981ea76ebf7e7b9
+	* configure.ac (AC_HEADER_TIME): Remove obsolete AC macro.
+	(AC_CHECK_SIZEOF(time_t)): Remove unneeded check.
+
+	build: Update config.guess, config.sub, and config.rpath.
+	+ commit b1b808f30f83e92e7d30a9336588c15553699a7b
+	* build-aux/config.guess: Update from upstream.
+	* build-aux/config.sub: Ditto.
+	* build-aux/config.rpath: Update from gettext 0.21.
+
+2022-06-28  NIIBE Yutaka  <gniibe@fsij.org>
+
+	Remove Windows CE support.
+	+ commit 14ead267268f8ed14bf1ab49189646a95654b706
+	* contrib/*: Remove.
+	* Makefile.am: Remove contrib.
+	* autogen.sh: Remove Windows CE support.
+	* configure.ac (have_w32ce_system): Remove.
+	* src/Makefile.am [HAVE_W32CE_SYSTEM] (extra_cppflags): Remove.
+	(gpg_extra_headers): Remove.
+	(EXTRA_DIST): Remove mkw32errmap.c and w32ce-add.h
+	(BUILT_SOURCES): Remove mkw32errmap.map.c.
+	(tmp_files): Remove mkw32errmap.tab.h mkw32errmap.map.c
+	(CLEANFILES): Likewise.
+	* src/estream-printf.c [HAVE_W32CE_SYSTEM]: Remove.
+	* src/estream.c [HAVE_W32CE_SYSTEM]: Remove.
+	* src/gpg-error.def.in [HAVE_W32CE_SYSTEM]: Remove.
+	* src/gpgrt-int.h: Fix comment.
+	* src/init.c [HAVE_W32CE_SYSTEM]: Remove.
+	* src/init.h [HAVE_W32CE_SYSTEM]: Remove.
+	* src/mkheader.c: Remove Windows CE support.
+	* src/mkw32errmap.c, src/w32ce-add.h: Remove.
+	* src/spawn-posix.c [HAVE_W32CE_SYSTEM]: Remove.
+	* src/spawn-w32.c [HAVE_W32CE_SYSTEM]: Remove.
+	* src/sysutils.c [HAVE_W32CE_SYSTEM]: Remove.
+	* src/w32-estream.c [HAVE_W32CE_SYSTEM]: Remove.
+	* src/w32-reg.c [HAVE_W32CE_SYSTEM]: Remove.
+	* tests/Makefile.am [HAVE_W32CE_SYSTEM]: Remove.
+
+	Typo fix in autogen.sh.
+	+ commit 084d135f44a027e86f1005c893935464ffbc4b82
+	* autogen.sh: Fix typo.
+
+2022-04-07  Werner Koch  <wk@gnupg.org>
+
+	Release 1.45.
+	+ commit dbac537e5e865fb6f3aa8596d213aa8c47a9dea1
+
+
+2022-04-07  NIIBE Yutaka  <gniibe@fsij.org>
+
+	logging: Fix the previous commit.
+	+ commit 74e6afcc36b28b0acc49fbe25f29b42d1a223caf
+	* src/logging.c (set_file_fd): Open with append mode.
+
+	logging: Fix gpgrt_log_get_fd for file.
+	+ commit 5ef201c10b1cc870ae06e34ad02bb5da0a763bfe
+	* src/logging.c (fun_writer): Only use this for socket writing.
+	(set_file_fd): Use es_stderr when "-".
+	Use the stream by _gpgrt_fdopen when FD is specified.
+	Use the stream by _gpgrt_fopen when name is not socket.
+	Only use the stream by _gpgrt_fopencookie for socket.
+	[HAVE_W32CE_SYSTEM]: Remove W32CE support.
+
+2022-04-04  NIIBE Yutaka  <gniibe@fsij.org>
+
+	w32: Add ES_SYSHD_SOCK support for gpgrt_sysopen.
+	+ commit 018ea46a30cf4eda70070ba42c4fee642fb2fd8a
+	* src/mkheader.c (write_special): Support @SOCKET_t@ substitution.
+	* src/gpgrt-int.h (gpgrt_stream_backend_kind_t): Add BACKEND_SOCK.
+	* src/gpg-error.h.in (struct _gpgrt_syshd): Use @SOCKET_t@.
+	* src/estream.c [HAVE_W32_SYSTEM] (estream_cookie_sock_t): New.
+	[HAVE_W32_SYSTEM] (func_sock_create, func_sock_read): New.
+	[HAVE_W32_SYSTEM] (func_sock_write, func_sock_seek): New.
+	[HAVE_W32_SYSTEM] (func_sock_destroy, func_sock_ioctl): New.
+	[HAVE_W32_SYSTEM] (estream_functions_sock, do_sockopen): New.
+	[HAVE_W32_SYSTEM] (do_sysopen): Call do_sockopen.
+
+2022-03-29  NIIBE Yutaka  <gniibe@fsij.org>
+
+	w32: Fix handle_to_pid for MinGW-w64.
+	+ commit 660db9c9a90f377fc14a5d659d974d68d782b2d1
+	* src/spawn-w32.c (handle_to_pid): Use pid_t to coerce the type.
+
+2022-03-28  NIIBE Yutaka  <gniibe@fsij.org>
+
+	core: Fix support of posix-lock for FreeBSD.
+	+ commit 6e17e70bb7eea1f6ed4c08f795ea65a09f89d38f
+	* src/posix-lock.c [__FreeBSD__] (use_pthread_p): Use
+	pthread_key_create to determine if it's linked to lpthread or not.
+
+	yat2m: Only emit a message of the page with --verbose option.
+	+ commit 70489b4f75c0afcb1b5c65e579b231d8f657b8c6
+	* doc/yat2m.c (finish_page): Conditionalize the output with VERBOSE.
+
+2022-03-25  NIIBE Yutaka  <gniibe@fsij.org>
+
+	w32: Fix for MinGW which doesn't define EOPNOTSUPP.
+	+ commit 8e67e8c3f21c798ff1f4862b0e7228825e6dd4f6
+	* src/w32-estream.c: Add EOPNOTSUPP.
+
+2022-03-04  Werner Koch  <wk@gnupg.org>
+
+	w32: Support file names longer than MAX_PATH.
+	+ commit 32dad4e4135f0bdc436ed684da753d4b0cdb0ea1
+	* src/sysutils.c (any8bitchar): Remove.
+	(_gpgrt_fname_to_wchar): New.
+	(_gpgrt_mkdir): Use instead of plain utf8 conversion.
+	(_gpgrt_access): Reimplement using GetFileAttributesW so that long
+	files names are supported.
+	* src/estream.c (_gpgrt_w32_get_last_err_code): New.
+	(func_file_create_w32): New.
+	(_gpgrt_fopen): Handle the "sysopen" mode flag.  Support mapping of
+	/dev/null.
+	(_gpgrt_freopen): Support mapping of /dev/null.
+	* src/w32-gettext.c (load_domain): Allow long file names.
+
+	* src/visibility.c (gpgrt_free_wchar): Make function public.
+	(gpgrt_fname_to_wchar): Ditto.
+	(gpgrt_utf8_to_wchar): Ditto.
+	(gpgrt_wchar_to_utf8): Ditto.
+	* src/w32-add.h  (gpgrt_free_wchar): New prototype.
+	(gpgrt_fname_to_wchar): Ditto.
+	(gpgrt_utf8_to_wchar): Ditto.
+	(gpgrt_wchar_to_utf8): Ditto.
+	* src/gpg-error.def.in: Add them here too.
+
+2022-02-17  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpg-error.m4: Fix use with older gpgrt-config (< 1.33).
+	+ commit 666d64d2bc6539d0ca03dea69abc5a8ccdf37be5
+	* src/gpg-error.m4: When gpgrt-config doesn't work expected for
+	gpg-error.pc, unset GPGRT_CONFIG.
+
+2022-02-01  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build,tests: Fix detection of have_lock_optimization.
+	+ commit 433aba9e778ebe9500c29ae1ae34999d48e98a19
+	* configure.ac: Lock optimization (without sys/single_threaded.h) is
+	only known to work on GNU system, using weak symbol.
+
+2022-01-27  Werner Koch  <wk@gnupg.org>
+
+	Release 1.44.
+	+ commit 54eff9cb9ac86809f3217179eb1029058d4a7936
+	* configure.ac: Bump LT version to C32/A32/R2.
+
+2022-01-27  Emir SARI  <emir_sari@icloud.com>
+
+	Add Turkish translations.
+	+ commit 663b91fe91af0bb290fe18092896a8917bf51e14
+
+
+2022-01-25  Werner Koch  <wk@gnupg.org>
+
+	core: Fix returning of option attributes for options with args.
+	+ commit 5ab088aba9f05b480c311e94d45a88728ac9320b
+	* src/argparse.c (_gpgrt_argparse): Set attributes info flags
+
+2022-01-18  Daniel Kahn Gillmor  <dkg@fifthhorseman.net>
+
+	build: Detect more flexible musl variants of GNU.
+	+ commit 0150919b6a8244be1055d01ad21d6fa47788ab0e
+	* configure.ac: expand *-*-linux-musl to *-*-linux-musl*.
+
+2022-01-18  NIIBE Yutaka  <gniibe@fsij.org>
+
+	po,w32: Directly run msgfmt at install-data-hook.
+	+ commit b26220f92fa668e185dbf2bcc5006c6e74b20073
+	* Makefile.am (EXTRA_DIST): Remove potomo.
+	[HAVE_W32_SYSTEM] (install-data-hook): Run msgfmt.
+
+	po: Update files from gettext 0.21 to match m4/po.m4.
+	+ commit b37c68f28a921d1c03507469f4af53e012ef7679
+	* po/Makefile.in.in: Update.
+	* po/Makevars: Update.
+	* po/Rules-quot: Update.
+	* po/insert-header.sin: Update.
+	* po/remove-potcdate.sin: Update.
+
+2021-12-22  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Recover and update *.m4.
+	+ commit 973dbdbfc90136798cfa4001166a40b904fdad70
+	* m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4: Copied
+	from gnulib.
+	* m4/po.m4, m4/nls.m4, m4/progtest.m4: Likewise.
+	* m4/gettext.m4, m4/iconv.m4: Update from gnulib.
+	* m4/host-cpu-c-abi.m4: New from gnulib.
+
+	build: Remove obsolete m4 files.
+	+ commit 980e4410bb0a372a7bcce5f454915e6565a56b96
+	* m4/glibc2.m4, m4/glibc21.m4, m4/intdiv0.m4, m4/intmax.m4: Remove.
+	* m4/inttypes-h.m4, m4/inttypes-pri.m4, m4/inttypes.m4: Remove.
+	* m4/inttypes_h.m4, m4/isc-posix.m4, m4/lcmessage.m4: Remove.
+	* m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4: Remove.
+	* m4/longdouble.m4, m4/longlong.m4, m4/nls.m4, m4/po.m4: Remove.
+	* m4/printf-posix.m4, m4/progtest.m4, m4/signed.m4: Remove.
+	* m4/size_max.m4, m4/stdint_h.m4, m4/uintmax_t.m4: Remove.
+	* m4/ulonglong.m4, m4/visibility.m4, m4/wchar_t.m4: Remove.
+	* m4/wint_t.m4, m4/xsize.m4: Remove.
+
+2021-12-17  NIIBE Yutaka  <gniibe@fsij.org>
+
+	tests: Fix gpg-error-config-test for PKG_CONFIG_LIBDIR.
+	+ commit 8d2bd9a0d4bba9b820bc03a9275441c39182d5b7
+	* src/gpg-error-config-test.sh.in: Clear PKG_CONFIG_LIBDIR.
+
+2021-12-15  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Update configure.ac for newer autoconf.
+	+ commit f5e043ad271f431f2c35fc6b22fc51b448507b01
+	* configure.ac (AC_PREREQ): Require 2.69 or later.
+	(AC_CONFIG_HEADERS): Replace AC_CONFIG_HEADER.
+	(AC_HEADER_STDC): Remove.
+	* m4/codeset.m4: Update from gnulib.
+
+2021-12-13  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Fix have_lock_optimization code for 'guessing yes'.
+	+ commit f15c06951bb91eb0a4ab54f6707b6e21448945f9
+	* configure.ac: Support 'guessing yes' for gl_cv_have_weak.
+
+	build: Detect a system with musl, as a variant of GNU System.
+	+ commit e17cf023d894acc3932505f66fbd9c31ce56793f
+	* configure.ac: Add *-*-linux-musl.
+
+2021-12-07  Jakub Jelen  <jjelen@redhat.com>
+
+	configure: Add missing check for logging.
+	+ commit 7fac8e02d80d139f43fc5fd179618ab769512124
+	* configure.ac: Add missing check for inet_pton to avoid using inet_addr
+	  in modern systems.
+
+2021-11-29  NIIBE Yutaka  <gniibe@fsij.org>
+
+	tests,w32: Use CreatePipe and es_sysopen.
+	+ commit 858bcd4343ac40566825cfa861ee60bcc54cb6c8
+	* tests/t-poll.c (create_pipe): Use CreatePipe.
+
+2021-11-25  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build,tests: Run t-lock-single-posix only on platforms supported.
+	+ commit 50e0f32b19356fd7c64c799192379ff2204cd8a3
+	* configure.ac (HAVE_LOCK_OPTIMIZATION): New.
+	* tests/Makefile.am: Use HAVE_LOCK_OPTIMIZATION for
+	t-lock-single-posix.
+
+2021-11-19  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Fix dependency to gpg-error-config-test.sh.
+	+ commit 0fcfca8e9ffa25836f391df75f5b3bb1b7dc1a69
+	* src/Makefile.am (gpg-error-config): It depends on configure
+	generated gpg-error-config-test.sh.
+
+2021-11-12  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Fix for configure generated files.
+	+ commit fd83c3e29744c8d7829df3de8c10f9c68f11e429
+	* src/Makefile.am (bin_SCRIPTS): Add gpgrt-config.
+	(EXTRA_DIST): Add gpgrt-config.in and gpg-error-config-test.sh.in.
+	(CLEANFILES): Add configure generated files.
+
+	configure: Escape includedir/libdir to defer interpretation of vars.
+	+ commit 1e5b17f4284ea2904c65d08097735a1a4a8879a1
+	configure.ac: Escape includedir for GPG_ERROR_CONFIG_CFLAGS.
+	Escape libdir for GPG_ERROR_CONFIG_LIBS.
+
+2021-11-04  NIIBE Yutaka  <gniibe@fsij.org>
+
+	estream: Only include sys/select.h when needed.
+	+ commit 61843dace32f12475b1ade5423deaa0421cbbc0b
+	* src/estream.c: The select function is only used when poll is not
+	available.  So, let it include the header file only when needed.
+
+2021-11-03  Werner Koch  <wk@gnupg.org>
+
+	Release 1.43.
+	+ commit d7fb04832a71a2c1509d45027798f184ca274f8d
+
+
+2021-11-03  Ineiev  <ineiev@gnu.org>
+
+	po: Update Russian translation.
+	+ commit 983a1b491ea6dfa7bb1868a6ac41fb9222bbe301
+
+
+2021-11-03  Werner Koch  <wk@gnupg.org>
+
+	argparse: Add more system variables.
+	+ commit 62755bcd302eca755d52b80b62dc17ae0e683b75
+	* src/argparse.c (get_var): Fix "_windows", add "_gpgrtversion" and
+	"strusageN".
+	(handle_meta_if): Avoid evaluating inactive branches.
+	* tests/t-argparse.conf: Add a few other outputs.
+
+2021-10-31  Werner Koch  <wk@gnupg.org>
+
+	argparse: Add support to read values from the Windows Registry.
+	+ commit b1790f4cc71f14422255bbfba78e91f037e035dd
+	* src/argparse.c (struct variable_s): New.
+	(struct _gpgrt_argparse_internal_s): New fields expand, if_cond,
+	if_active and vartbl.
+	(deinitialize): Free vartbl.
+	(initialize): Clear new vars.
+	(get_var): New.
+	(substitute_vars): New.
+	(set_variable): New.
+	(handle_meta_if): New.
+	(handle_meta_let): New.
+	(handle_meta_getenv): New.
+	(handle_meta_echo): Re-implement in terms of variabale substitution.
+	(handle_meta_expand): New.
+	(handle_metacmd): Add new meta commands.
+	(_gpgrt_argparse): Expand values if enabled.
+	(_gpgrt_argparse): Take care of conditions.
+	(_gpgrt_argparser): Reset some state at the end of a file.
+
+	* tests/etc/t-argparse.conf: Adjust for changed system variables.
+	* tests/t-argparse.c (my_strusage): Add a value for a version test.
+	(main): Add new option "street".
+	* tests/t-argparse.conf: A couple if additions for the new conditions.
+
+2021-10-22  Werner Koch  <wk@gnupg.org>
+
+	core: new internal function _gpgrt_w32_reg_get_string.
+	+ commit 2a32501a561a5d70069bcb6e7e87fb949370520e
+	* src/w32-reg.c (_gpgrt_w32_reg_query_string): Allow abbreviated root
+	names.
+	(_gpgrt_w32_reg_get_string): New.
+
+2021-09-27  NIIBE Yutaka  <gniibe@fsij.org>
+
+	libtool: Link without -flat_namespace for macOS.
+	+ commit a3987e44970505a5540f9702c1e41292c22b69cf
+	* m4/libtool.m4: Not setting 10.0 to MACOSX_DEPLOYMENT_TARGET when not
+	defined.  Only specify -flat_namespace to linker for specific
+	(older) versions and hosts.
+
+2021-09-10  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpgrt-config: Fix behavior when PKG_CONFIG_LIBDIR="".
+	+ commit 6b08dd09864e7fbb424296ad490f9fe65c9bc247
+	* src/gpgrt-config.in: Correctly detect the case.
+
+2021-08-26  NIIBE Yutaka  <gniibe@fsij.org>
+
+	tests: Add a test for locking when single thread.
+	+ commit 2b476b3ebc1d13d681594c15505844766c0fbc4b
+	* tests/Makefile.am (TESTS): Add t-lock-single-posix.
+	* tests/t-lock-single-posix.c: New.
+
+2021-08-06  NIIBE Yutaka  <gniibe@fsij.org>
+
+	posix-lock: Support GNU C library 2.34 or later.
+	+ commit 67595e8244ed67910f7372873cdbf674c2e85403
+	* configure.ac: Add check for sys/single_threaded.h.
+	* src/posix-lock.c [USE_POSIX_THREADS_FROM_LIBC]: Use
+	__libc_single_threaded to detect if it's single threaded.
+
+	m4: Merge our local change for threadlib.m4.
+	+ commit 8538a83fd1b5e54d7dbe6dc9042cc74942e38e51
+	* m4/threadlib.m4: Add THREADLIB_CPPFLAGS support.
+
+	m4: Update m4/threadlib.m4 from gnulib.
+	+ commit 7ad1ff9673e4589880170b9f84df93510b044814
+	* m4/threadlib.m4: Update.
+
+2021-08-05  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Simplify checking headers.
+	+ commit f8fe24a792321483baa7415e06640fb5077fcb13
+	* configure.ac (AC_HEADER_STDC): Remove stdlib.h.
+
+	core: Minor clean up.
+	+ commit b82b0d7a8d8f69aec928a2c604c1260b34a08449
+	* src/stringutils.c: Remove inclusion of pwd.h.
+
+2021-06-21  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Fix --disable-threads.
+	+ commit 220a427b4f997ef6af1b2d4e82ef1dc96e0cd6ff
+	* src/gen-lock-obj.sh: Fix generating '}}}'.
+
+2021-06-08  NIIBE Yutaka  <gniibe@fsij.org>
+
+	core: Avoid truncation of error message in the middle of a character.
+	+ commit 6d19a40a8a23d9aa5d61ace247a5fea1bd103995
+	* configure.ac (AM_LANGINFO_CODESET): Add.
+	* src/strerror.c (_gpg_strerror_r): Check the boundary of character.
+
+2021-05-21  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: _DARWIN_C_SOURCE should be 1.
+	+ commit f9b50dafc5d3cc9d463be17b1d9e66817d4cb41c
+	* configure.ac (*-apple-darwin*): Set _DARWIN_C_SOURCE 1.
+
+2021-05-20  Werner Koch  <wk@gnupg.org>
+
+	core: Make gpgrt_free robust against legacy free implementations.
+	+ commit 448bf7b01cade87f45fb39f455f37a6aadeeceda
+	* src/init.c (_gpgrt_free): Shortcut NULL and save ERRNO.
+
+2021-04-12  Jakub Jelen  <jjelen@redhat.com>
+
+	build,tests: Fix leaks of memory or file pointer.
+	+ commit ad062b0a5b7d598081405ecfb71b51540281a1b7
+	* src/mkheader.c (parse_config_h): Close FP.
+	* tests/t-b64.c (test_b64enc_string): Free STATE.
+	(test_b64dec_string): Free BUFFER.
+	* tests/t-syserror.c (main): Close FP.
+
+2021-04-08  NIIBE Yutaka  <gniibe@fsij.org>
+
+	core: Fix gpgrt_wait_processes, by skipping invalid PID.
+	+ commit 956c40f106ead6d0191bc183805021e70c15e760
+	* src/spawn-posix.c (_gpgrt_wait_processes): Skip invalid PID.
+
+2021-04-07  NIIBE Yutaka  <gniibe@fsij.org>
+
+	build: Fix gpgrt-config for handling 'Requires' field.
+	+ commit 89a353f418f5e879ab5564ec0767a6cbdb19d51c
+	* src/gpgrt-config.in (get_attr_l): Fix thinko for word split.
+
+2021-03-31  NIIBE Yutaka  <gniibe@fsij.org>
+
+	m4: Fix previous commit.
+	+ commit 8536f82194ec21635cd017d7e0bd382106e196c6
+
+
+	m4: Support cross-compiling better.
+	+ commit 9b9c5dfa1020ce5a5a5e4954c58112d2707ec578
+	* src/gpg-error.m4 (GPGRT_CONFIG): Prefer the one under $prefix.
+	(sed expression): Better compatibility to POSIX sed.
+
+2021-03-26  David Michael  <fedora.dm0@gmail.com>
+
+	build: Fix generation of lock-obj-pub.native.h for cross build.
+	+ commit 33593864cd54143db594c4237bba41e14179061c
+	* src/gen-lock-obj.sh: Capture echo output with quotes.
+
 2021-03-22  Werner Koch  <wk@gnupg.org>
 
 	Release 1.42.

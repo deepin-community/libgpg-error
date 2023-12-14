@@ -1,3 +1,80 @@
+libgpg-error (1.47-3) unstable; urgency=low
+
+  [ Andreas Metzler ]
+  * Team upload
+
+  [ Helmut Grohne ]
+  * Move libgpg-error.so.* to /usr. Closes: #1055939
+
+ -- Andreas Metzler <ametzler@debian.org>  Sat, 18 Nov 2023 14:15:16 +0100
+
+libgpg-error (1.47-2) unstable; urgency=medium
+
+  * Team upload.
+  * Upload to unstable. Closes: #1034156
+  * Update Vcs-Git field. Closes: #1034556
+
+ -- Andreas Metzler <ametzler@debian.org>  Tue, 15 Aug 2023 11:02:07 +0200
+
+libgpg-error (1.47-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream version.
+    + Unfuzz 0001-Remove-upstream-git-fanciness.patch.
+    + Ship newly available gpgrt-config.1 manpage.
+    + Update copyright info.
+
+ -- Andreas Metzler <ametzler@debian.org>  Tue, 25 Jul 2023 07:32:15 +0000
+
+libgpg-error (1.46-1) unstable; urgency=medium
+
+  * New upstream release
+  * add debian/upstream/metadata
+  * d/u/signing-key.asc: drop expired signing key
+  * drop gpg-error-config; upstream prefers "pkg-config gpg-error"
+  * Standards-Version: bump to 4.6.1 (no changes needed)
+  * lintian-overrides: clean up for structured lintian output format
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Tue, 18 Oct 2022 16:22:48 -0400
+
+libgpg-error (1.45-2) unstable; urgency=medium
+
+  * Only enable wine32 and wine64 tests on i386 and amd64,
+    respectively
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Fri, 29 Apr 2022 16:23:54 -0400
+
+libgpg-error (1.45-1) unstable; urgency=medium
+
+  * New upstream release
+  * d/gbp.conf: move to DEP-14 branch naming
+  * drop patches already upstream
+  * Avoid invoking autopoint
+  * d/copyright: upstream no longer ships potomo
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Wed, 27 Apr 2022 21:40:48 -0400
+
+libgpg-error (1.43-3) unstable; urgency=medium
+
+  * be more flexible when detecting musl variants (Closes: #1003313)
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Tue, 18 Jan 2022 18:37:05 -0500
+
+libgpg-error (1.43-2) unstable; urgency=medium
+
+  * cherry-pick fix for musl from upstream (Closes: #1003313)
+  * debian/u/signing-key.asc: update key for gniibe
+  * update lintian-overrides for new more verbose messages
+  * mingw: add new lintian-overrides for no-code-sections
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Tue, 11 Jan 2022 02:57:34 -0500
+
+libgpg-error (1.43-1) unstable; urgency=medium
+
+  * New upstream release 1.43
+
+ -- Christoph Biedl <debian.axhn@manchmal.in-ulm.de>  Sun, 19 Dec 2021 17:19:12 +0100
+
 libgpg-error (1.42-3) unstable; urgency=medium
 
   * Revert "libgpg-error-dev: fix breakout-link warning (thanks,
