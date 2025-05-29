@@ -1,3 +1,9 @@
+libgpg-error (1.47-3deepin1) unstable; urgency=medium
+
+  * feat: add sw64 support.
+
+ -- hudeng <hudeng@deepin.org>  Thu, 29 May 2025 17:55:28 +0800
+
 libgpg-error (1.47-3) unstable; urgency=low
 
   [ Andreas Metzler ]
