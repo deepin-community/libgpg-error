@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgpg-error 1.10\n"
 "Report-Msgid-Bugs-To: translations@gnupg.org\n"
-"POT-Creation-Date: 2023-04-06 10:30+0200\n"
+"POT-Creation-Date: 2024-11-11 11:35+0100\n"
 "PO-Revision-Date: 2021-03-22 10:27+0100\n"
 "Last-Translator: Freek de Kruijf <f.de.kruijf@gmail.com>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -2056,134 +2056,134 @@ msgstr "Einde van bestand"
 msgid "Unknown error code"
 msgstr "Onbekende foutcode"
 
-#: src/argparse.c:494
+#: src/argparse.c:502
 #, fuzzy
 #| msgid "Data not encrypted"
 msgid "argument not expected"
 msgstr "Gegevens niet versleuteld"
 
-#: src/argparse.c:496
+#: src/argparse.c:504
 #, fuzzy
 #| msgid "IPC read error"
 msgid "read error"
 msgstr "IPC-leesfout"
 
-#: src/argparse.c:498
+#: src/argparse.c:506
 #, fuzzy
 #| msgid "Line too long"
 msgid "keyword too long"
 msgstr "Regel te lang"
 
-#: src/argparse.c:500
+#: src/argparse.c:508
 #, fuzzy
 #| msgid "Missing value"
 msgid "missing argument"
 msgstr "Ontbrekende waarde"
 
-#: src/argparse.c:502
+#: src/argparse.c:510
 #, fuzzy
 #| msgid "Invalid argument"
 msgid "invalid argument"
 msgstr "Ongeldig argument"
 
-#: src/argparse.c:504
+#: src/argparse.c:512
 #, fuzzy
 #| msgid "Invalid card"
 msgid "invalid command"
 msgstr "Ongeldige kaart"
 
-#: src/argparse.c:506
+#: src/argparse.c:514
 #, fuzzy
 #| msgid "Invalid OID string"
 msgid "invalid alias definition"
 msgstr "Ongeldige OID-tekenreeks"
 
-#: src/argparse.c:508 src/argparse.c:545
+#: src/argparse.c:516 src/argparse.c:553
 #, fuzzy
 #| msgid "Configuration error"
 msgid "permission error"
 msgstr "Configuratiefout"
 
-#: src/argparse.c:510 src/argparse.c:543
+#: src/argparse.c:518 src/argparse.c:551
 msgid "out of core"
 msgstr ""
 
-#: src/argparse.c:514 src/argparse.c:549
+#: src/argparse.c:522 src/argparse.c:557
 #, fuzzy
 #| msgid "Invalid card"
 msgid "invalid meta command"
 msgstr "Ongeldige kaart"
 
-#: src/argparse.c:516 src/argparse.c:551
+#: src/argparse.c:524 src/argparse.c:559
 #, fuzzy
 #| msgid "Unknown command"
 msgid "unknown meta command"
 msgstr "Onbekend commando"
 
-#: src/argparse.c:518 src/argparse.c:553
+#: src/argparse.c:526 src/argparse.c:561
 #, fuzzy
 #| msgid "Unexpected IPC command"
 msgid "unexpected meta command"
 msgstr "Onverwacht IPC-commando"
 
-#: src/argparse.c:520
+#: src/argparse.c:528
 #, fuzzy
 #| msgid "Invalid operation code"
 msgid "invalid option"
 msgstr "Ongeldige bewerkingscode"
 
-#: src/argparse.c:530
+#: src/argparse.c:538
 #, c-format
 msgid "missing argument for option \"%.50s\"\n"
 msgstr ""
 
-#: src/argparse.c:532
+#: src/argparse.c:540
 #, c-format
 msgid "invalid argument for option \"%.50s\"\n"
 msgstr ""
 
-#: src/argparse.c:534
+#: src/argparse.c:542
 #, c-format
 msgid "option \"%.50s\" does not expect an argument\n"
 msgstr ""
 
-#: src/argparse.c:537
+#: src/argparse.c:545
 #, c-format
 msgid "invalid command \"%.50s\"\n"
 msgstr ""
 
-#: src/argparse.c:539
+#: src/argparse.c:547
 #, c-format
 msgid "option \"%.50s\" is ambiguous\n"
 msgstr ""
 
-#: src/argparse.c:541
+#: src/argparse.c:549
 #, c-format
 msgid "command \"%.50s\" is ambiguous\n"
 msgstr ""
 
-#: src/argparse.c:555
+#: src/argparse.c:563
 #, fuzzy, c-format
 #| msgid "Invalid operation code"
 msgid "invalid option \"%.50s\"\n"
 msgstr "Ongeldige bewerkingscode"
 
-#: src/argparse.c:2297 src/argparse.c:2393
+#: src/argparse.c:2335 src/argparse.c:2432
 #, c-format
 msgid "Note: no default option file '%s'\n"
 msgstr ""
 
-#: src/argparse.c:2307 src/argparse.c:2400
+#: src/argparse.c:2345 src/argparse.c:2439
 #, c-format
 msgid "reading options from '%s'\n"
 msgstr ""
 
-#: src/argparse.c:2385
+#: src/argparse.c:2424
 #, c-format
 msgid "option file '%s': %s\n"
 msgstr ""
 
-#: src/argparse.c:2823
+#: src/argparse.c:2910
 #, c-format
 msgid "Note: ignoring option \"--%s\" due to global config\n"
 msgstr ""

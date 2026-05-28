@@ -2,6 +2,7 @@
 include /usr/share/dpkg/architecture.mk
 export AUTOPOINT = true
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DPKG_GENSYMBOLS_CHECK_LEVEL = 4
 export CFLAGS_FOR_BUILD = $(shell dpkg-architecture -f -a$(DEB_BUILD_ARCH) -c dpkg-buildflags --get CFLAGS)
 export LDFLAGS_FOR_BUILD = $(shell dpkg-architecture -f -a$(DEB_BUILD_ARCH) -c dpkg-buildflags --get LDFLAGS)
 
@@ -15,16 +16,15 @@ override_dh_auto_configure:
 	    --disable-rpath \
 	    --infodir=\$${prefix}/share/info \
 	    --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)
-ifeq ($(DEB_BUILD_ARCH), sw64)
-	echo > debian/libgpg-error-mingw-w64-dev.install
-	echo > debian/libgpg-error-l10n.install
-endif
 
 override_dh_auto_build-arch:
 	dh_auto_build --builddirectory=build
 ifeq ($(DEB_HOST_MULTIARCH),$(DEB_BUILD_MULTIARCH))
 	tail -vn+0 build/src/lock-obj-pub.native.h
 endif
+
+override_dh_auto_test-arch:
+	dh_auto_test --builddirectory=build
 
 override_dh_auto_install-arch:
 	dh_auto_install --builddirectory=build
@@ -39,7 +39,6 @@ override_dh_installdocs:
 
 WIN_FLAGS=LDFLAGS="-Xlinker --no-insert-timestamp" CFLAGS="-g -Os -fdebug-prefix-map=$(shell pwd)=." CPPFLAGS=
 
-ifneq ($(DEB_BUILD_ARCH), sw64)
 override_dh_auto_build-indep:
 	for cpu in i686 x86_64; do \
 	 mkdir -p build-$$cpu-w64-mingw32 && \
@@ -59,4 +58,3 @@ override_dh_auto_install-indep:
 	  || exit 1 ; \
 	  cd .. ; \
 	done
-endif
