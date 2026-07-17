@@ -40,6 +40,7 @@ override_dh_installdocs:
 WIN_FLAGS=LDFLAGS="-Xlinker --no-insert-timestamp" CFLAGS="-g -Os -fdebug-prefix-map=$(shell pwd)=." CPPFLAGS=
 
 override_dh_auto_build-indep:
+ifneq ($(DEB_BUILD_ARCH), sw64)
 	for cpu in i686 x86_64; do \
 	 mkdir -p build-$$cpu-w64-mingw32 && \
 	 cd build-$$cpu-w64-mingw32 && $(WIN_FLAGS) ../configure \
@@ -50,11 +51,18 @@ override_dh_auto_build-indep:
 	  || exit 1 ; \
 	  cd .. ; \
 	done
+endif
+ifeq ($(DEB_BUILD_ARCH), sw64)
+	echo > debian/libgpg-error-mingw-w64-dev.install
+	echo > debian/libgpg-error-l10n.install
+endif
 
 override_dh_auto_install-indep:
+ifneq ($(DEB_BUILD_ARCH), sw64)
 	for cpu in i686 x86_64; do \
 	  cd build-$$cpu-w64-mingw32 && \
 	  $(MAKE) install DESTDIR=$(shell pwd)/debian/tmp \
 	  || exit 1 ; \
 	  cd .. ; \
 	done
+endif
