@@ -13,11 +13,11 @@ beta.
  autogen.sh | 77 ++++----------------------------------------------------------
  1 file changed, 5 insertions(+), 72 deletions(-)
 
-diff --git a/autogen.sh b/autogen.sh
-index 4e1665b..af7aa52 100755
 --- a/autogen.sh
 +++ b/autogen.sh
-@@ -243,36 +243,11 @@ if [ "$myhost" = "find-version" ]; then
+@@ -242,42 +242,15 @@ if [ "$myhost" = "find-version" ]; then
+       matchstr3="$package-$major-base"
+       vers="$major.$minor.$micro"
      fi
  
      beta=no
@@ -42,24 +42,30 @@ index 4e1665b..af7aa52 100755
 -          fi
 -      fi
 -      [ -n "$tmp" ] && beta=yes
+-      cid=$(git rev-parse --verify HEAD | tr -d '\n\r')
 -      rev=$(git rev-parse --short HEAD | tr -d '\n\r')
 -      rvd=$((0x$(echo ${rev} | dd bs=1 count=4 2>/dev/null)))
 -    else
 -      ingit=no
 -      beta=yes
 -      tmp="-unknown"
+-      cid="0000000"
 -      rev="0000000"
 -      rvd="0"
 -    fi
 +    ingit=no
-+    beta=no
 +    tmp=""
 +    rvd="$(wc -l < debian/changelog)"
 +    rev="$(printf %07x $rvd)"
++    cid=$rev
  
-     echo "$package-$vers$tmp:$beta:$ingit:$vers$tmp:$vers:$tmp:$rev:$rvd:"
+     echo "$package-$vers$tmp:$beta:$ingit:$vers$tmp:$vers:$tmp:$rev:$rvd:$cid:"
      exit 0
-@@ -449,48 +424,6 @@ EOF
+ fi
+ # **** end FIND VERSION ****
+@@ -449,52 +422,10 @@ the corresponding environment variables;
+ 
+ EOF
      die_p
  fi
  
@@ -108,3 +114,5 @@ index 4e1665b..af7aa52 100755
  aclocal_flags="-I m4"
  if [ -n "${extra_aclocal_flags}" ]; then
    aclocal_flags="${aclocal_flags} ${extra_aclocal_flags}"
+ fi
+ if [ -n "${ACLOCAL_FLAGS}" ]; then

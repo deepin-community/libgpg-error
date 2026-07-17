@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgpg-error 1.42\n"
 "Report-Msgid-Bugs-To: translations@gnupg.org\n"
-"POT-Creation-Date: 2023-04-06 10:30+0200\n"
+"POT-Creation-Date: 2024-11-11 11:35+0100\n"
 "PO-Revision-Date: 2021-10-15 21:07+02:00\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -1898,110 +1898,110 @@ msgstr "Konec souboru"
 msgid "Unknown error code"
 msgstr "Neznámý kód chyby"
 
-#: src/argparse.c:494
+#: src/argparse.c:502
 msgid "argument not expected"
 msgstr "argument neočekáván"
 
-#: src/argparse.c:496
+#: src/argparse.c:504
 msgid "read error"
 msgstr "chyba čtení"
 
-#: src/argparse.c:498
+#: src/argparse.c:506
 msgid "keyword too long"
 msgstr "klíčové slovo je příliš dlouhé"
 
-#: src/argparse.c:500
+#: src/argparse.c:508
 msgid "missing argument"
 msgstr "chybí argument"
 
-#: src/argparse.c:502
+#: src/argparse.c:510
 msgid "invalid argument"
 msgstr "neplatný argument"
 
-#: src/argparse.c:504
+#: src/argparse.c:512
 msgid "invalid command"
 msgstr "neplatný příkaz"
 
-#: src/argparse.c:506
+#: src/argparse.c:514
 msgid "invalid alias definition"
 msgstr "neplatná definice aliasu"
 
-#: src/argparse.c:508 src/argparse.c:545
+#: src/argparse.c:516 src/argparse.c:553
 msgid "permission error"
 msgstr "chyba oprávnění"
 
-#: src/argparse.c:510 src/argparse.c:543
+#: src/argparse.c:518 src/argparse.c:551
 msgid "out of core"
 msgstr "nedostatek paměti"
 
-#: src/argparse.c:514 src/argparse.c:549
+#: src/argparse.c:522 src/argparse.c:557
 msgid "invalid meta command"
 msgstr "neplatný metapříkaz"
 
-#: src/argparse.c:516 src/argparse.c:551
+#: src/argparse.c:524 src/argparse.c:559
 msgid "unknown meta command"
 msgstr "neznámý metapříkaz"
 
-#: src/argparse.c:518 src/argparse.c:553
+#: src/argparse.c:526 src/argparse.c:561
 msgid "unexpected meta command"
 msgstr "neočekávaný metapříkaz"
 
 # Options from a konfiguration file.
-#: src/argparse.c:520
+#: src/argparse.c:528
 msgid "invalid option"
 msgstr "neplatný volba"
 
-#: src/argparse.c:530
+#: src/argparse.c:538
 #, c-format
 msgid "missing argument for option \"%.50s\"\n"
 msgstr "u volby „%.50s“ chybí argument\n"
 
-#: src/argparse.c:532
+#: src/argparse.c:540
 #, c-format
 msgid "invalid argument for option \"%.50s\"\n"
 msgstr "neplatný argument u volby „%.50s“\n"
 
-#: src/argparse.c:534
+#: src/argparse.c:542
 #, c-format
 msgid "option \"%.50s\" does not expect an argument\n"
 msgstr "volba „%.50s“ nepřijímá argument\n"
 
-#: src/argparse.c:537
+#: src/argparse.c:545
 #, c-format
 msgid "invalid command \"%.50s\"\n"
 msgstr "neplatný příkaz „%.50s“\n"
 
-#: src/argparse.c:539
+#: src/argparse.c:547
 #, c-format
 msgid "option \"%.50s\" is ambiguous\n"
 msgstr "volba „%.50s“ není jednoznačná\n"
 
-#: src/argparse.c:541
+#: src/argparse.c:549
 #, c-format
 msgid "command \"%.50s\" is ambiguous\n"
 msgstr "příkaz „%.50s“ není jednoznačný\n"
 
-#: src/argparse.c:555
+#: src/argparse.c:563
 #, c-format
 msgid "invalid option \"%.50s\"\n"
 msgstr "neplatná volba „%.50s“\n"
 
-#: src/argparse.c:2297 src/argparse.c:2393
+#: src/argparse.c:2335 src/argparse.c:2432
 #, c-format
 msgid "Note: no default option file '%s'\n"
 msgstr "Poznámka: žádný výchozí soubor s volbami „%s“\n"
 
-#: src/argparse.c:2307 src/argparse.c:2400
+#: src/argparse.c:2345 src/argparse.c:2439
 #, c-format
 msgid "reading options from '%s'\n"
 msgstr "volby se čtou z „%s“\n"
 
-#: src/argparse.c:2385
+#: src/argparse.c:2424
 #, c-format
 msgid "option file '%s': %s\n"
 msgstr "soubor s volbami „%s“: %s\n"
 
-#: src/argparse.c:2823
+#: src/argparse.c:2910
 #, c-format
 msgid "Note: ignoring option \"--%s\" due to global config\n"
 msgstr "Poznámka: přepínač „--%s“ se ignoruje kvůli globální konfiguraci\n"

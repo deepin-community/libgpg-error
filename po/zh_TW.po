@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgpg-error 1.39\n"
 "Report-Msgid-Bugs-To: translations@gnupg.org\n"
-"POT-Creation-Date: 2023-04-06 10:30+0200\n"
+"POT-Creation-Date: 2024-11-11 11:35+0100\n"
 "PO-Revision-Date: 2021-03-22 10:45+0100\n"
 "Last-Translator: bobwxc <bobwxc@yeah.net>\n"
 "Language-Team: None\n"
@@ -1894,109 +1894,109 @@ msgstr "檔案結尾"
 msgid "Unknown error code"
 msgstr "未知的錯誤代碼"
 
-#: src/argparse.c:494
+#: src/argparse.c:502
 msgid "argument not expected"
 msgstr "沒料到有引數"
 
-#: src/argparse.c:496
+#: src/argparse.c:504
 msgid "read error"
 msgstr "讀取錯誤"
 
-#: src/argparse.c:498
+#: src/argparse.c:506
 msgid "keyword too long"
 msgstr "關鍵字太長"
 
-#: src/argparse.c:500
+#: src/argparse.c:508
 msgid "missing argument"
 msgstr "無效的引數"
 
-#: src/argparse.c:502
+#: src/argparse.c:510
 msgid "invalid argument"
 msgstr "無效的引數"
 
-#: src/argparse.c:504
+#: src/argparse.c:512
 msgid "invalid command"
 msgstr "無效的指令"
 
-#: src/argparse.c:506
+#: src/argparse.c:514
 msgid "invalid alias definition"
 msgstr "無效的別名定義"
 
-#: src/argparse.c:508 src/argparse.c:545
+#: src/argparse.c:516 src/argparse.c:553
 msgid "permission error"
 msgstr "權限錯誤"
 
-#: src/argparse.c:510 src/argparse.c:543
+#: src/argparse.c:518 src/argparse.c:551
 msgid "out of core"
 msgstr "超出核心"
 
-#: src/argparse.c:514 src/argparse.c:549
+#: src/argparse.c:522 src/argparse.c:557
 msgid "invalid meta command"
 msgstr "無效元命令"
 
-#: src/argparse.c:516 src/argparse.c:551
+#: src/argparse.c:524 src/argparse.c:559
 msgid "unknown meta command"
 msgstr "未知元命令"
 
-#: src/argparse.c:518 src/argparse.c:553
+#: src/argparse.c:526 src/argparse.c:561
 msgid "unexpected meta command"
 msgstr "意外元命令"
 
-#: src/argparse.c:520
+#: src/argparse.c:528
 msgid "invalid option"
 msgstr "無效的選項"
 
-#: src/argparse.c:530
+#: src/argparse.c:538
 #, c-format
 msgid "missing argument for option \"%.50s\"\n"
 msgstr "\"%.50s\" 選項遺失了引數\n"
 
-#: src/argparse.c:532
+#: src/argparse.c:540
 #, c-format
 msgid "invalid argument for option \"%.50s\"\n"
 msgstr "選項 \"%.50s\" 的引數無效\n"
 
-#: src/argparse.c:534
+#: src/argparse.c:542
 #, c-format
 msgid "option \"%.50s\" does not expect an argument\n"
 msgstr "\"%.50s\" 選項沒料到會有引數\n"
 
-#: src/argparse.c:537
+#: src/argparse.c:545
 #, c-format
 msgid "invalid command \"%.50s\"\n"
 msgstr "無效的指令 \"%.50s\"\n"
 
-#: src/argparse.c:539
+#: src/argparse.c:547
 #, c-format
 msgid "option \"%.50s\" is ambiguous\n"
 msgstr "\"%.50s\" 選項不明確\n"
 
-#: src/argparse.c:541
+#: src/argparse.c:549
 #, c-format
 msgid "command \"%.50s\" is ambiguous\n"
 msgstr "\"%.50s\" 指令不明確\n"
 
-#: src/argparse.c:555
+#: src/argparse.c:563
 #, c-format
 msgid "invalid option \"%.50s\"\n"
 msgstr "無效的選項 \"%.50s\"\n"
 
-#: src/argparse.c:2297 src/argparse.c:2393
+#: src/argparse.c:2335 src/argparse.c:2432
 #, c-format
 msgid "Note: no default option file '%s'\n"
 msgstr "注意：文件 '%s' 中無缺省選項\n"
 
-#: src/argparse.c:2307 src/argparse.c:2400
+#: src/argparse.c:2345 src/argparse.c:2439
 #, c-format
 msgid "reading options from '%s'\n"
 msgstr "從 '%s' 中讀取選項\n"
 
-#: src/argparse.c:2385
+#: src/argparse.c:2424
 #, c-format
 msgid "option file '%s': %s\n"
 msgstr "選項文件 '%s': %s\n"
 
-#: src/argparse.c:2823
+#: src/argparse.c:2910
 #, c-format
 msgid "Note: ignoring option \"--%s\" due to global config\n"
 msgstr "注意： 由於整體設定，選項 \"--%s\" 被忽視\n"

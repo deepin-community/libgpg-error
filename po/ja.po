@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the libgpg-error package.
 # Yasuaki Taniguchi <yasuakit@gmail.com>, 2010.
 # Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>, 2012.
-# NIIBE Yutaka <gniibe@fsij.org>, 2014, 2015, 2016, 2017, 2019, 2020.
+# NIIBE Yutaka <gniibe@fsij.org>, 2014, 2015, 2016, 2017, 2019, 2020, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: libgpg-error 1.39\n"
+"Project-Id-Version: libgpg-error 1.47\n"
 "Report-Msgid-Bugs-To: translations@gnupg.org\n"
-"POT-Creation-Date: 2023-04-06 10:30+0200\n"
-"PO-Revision-Date: 2021-03-22 10:26+0100\n"
+"POT-Creation-Date: 2024-11-11 11:35+0100\n"
+"PO-Revision-Date: 2023-04-07 15:13+0900\n"
 "Last-Translator: NIIBE Yutaka <gniibe@fsij.org>\n"
 "Language-Team: none\n"
 "Language: ja\n"
@@ -92,7 +92,7 @@ msgstr "TLS"
 
 #: src/err-sources.h:46
 msgid "TKD"
-msgstr ""
+msgstr "TKD"
 
 #: src/err-sources.h:47
 msgid "Any source"
@@ -1311,20 +1311,16 @@ msgid "Service error"
 msgstr "サービスエラーです"
 
 #: src/err-codes.h:326
-#, fuzzy
-#| msgid "Bad PIN"
 msgid "Bad PUK"
-msgstr "誤った PIN です"
+msgstr "誤った PUK です"
 
 #: src/err-codes.h:327
 msgid "No reset code"
-msgstr ""
+msgstr "リセット・コードがありません"
 
 #: src/err-codes.h:328
-#, fuzzy
-#| msgid "Bad secret key"
 msgid "Bad reset code"
-msgstr "誤った秘密鍵です"
+msgstr "誤ったリセット・コードです"
 
 #: src/err-codes.h:329
 msgid "System bug detected"
@@ -1890,109 +1886,109 @@ msgstr "ファイル終端"
 msgid "Unknown error code"
 msgstr "不明なエラーコード"
 
-#: src/argparse.c:494
+#: src/argparse.c:502
 msgid "argument not expected"
 msgstr "引数は期待されていません"
 
-#: src/argparse.c:496
+#: src/argparse.c:504
 msgid "read error"
 msgstr "読み込みエラー"
 
-#: src/argparse.c:498
+#: src/argparse.c:506
 msgid "keyword too long"
 msgstr "キーワードが長すぎます"
 
-#: src/argparse.c:500
+#: src/argparse.c:508
 msgid "missing argument"
 msgstr "引数がありません"
 
-#: src/argparse.c:502
+#: src/argparse.c:510
 msgid "invalid argument"
 msgstr "無効な引数"
 
-#: src/argparse.c:504
+#: src/argparse.c:512
 msgid "invalid command"
 msgstr "無効なコマンド"
 
-#: src/argparse.c:506
+#: src/argparse.c:514
 msgid "invalid alias definition"
 msgstr "無効なエイリアス定義です"
 
-#: src/argparse.c:508 src/argparse.c:545
+#: src/argparse.c:516 src/argparse.c:553
 msgid "permission error"
 msgstr "許可エラーです"
 
-#: src/argparse.c:510 src/argparse.c:543
+#: src/argparse.c:518 src/argparse.c:551
 msgid "out of core"
 msgstr "メモリがありません"
 
-#: src/argparse.c:514 src/argparse.c:549
+#: src/argparse.c:522 src/argparse.c:557
 msgid "invalid meta command"
 msgstr "無効なメタコマンド"
 
-#: src/argparse.c:516 src/argparse.c:551
+#: src/argparse.c:524 src/argparse.c:559
 msgid "unknown meta command"
 msgstr "未知のメタコマンドです"
 
-#: src/argparse.c:518 src/argparse.c:553
+#: src/argparse.c:526 src/argparse.c:561
 msgid "unexpected meta command"
 msgstr "予期しないメタコマンドです"
 
-#: src/argparse.c:520
+#: src/argparse.c:528
 msgid "invalid option"
 msgstr "無効なオプション"
 
-#: src/argparse.c:530
+#: src/argparse.c:538
 #, c-format
 msgid "missing argument for option \"%.50s\"\n"
 msgstr "オプション\"%.50s\"に引数がありません\n"
 
-#: src/argparse.c:532
+#: src/argparse.c:540
 #, c-format
 msgid "invalid argument for option \"%.50s\"\n"
 msgstr "オプション\"%.50s\"には無効な引数です\n"
 
-#: src/argparse.c:534
+#: src/argparse.c:542
 #, c-format
 msgid "option \"%.50s\" does not expect an argument\n"
 msgstr "オプション\"%.50s\"は引数をとりません\n"
 
-#: src/argparse.c:537
+#: src/argparse.c:545
 #, c-format
 msgid "invalid command \"%.50s\"\n"
 msgstr "無効なコマンド \"%.50s\"\n"
 
-#: src/argparse.c:539
+#: src/argparse.c:547
 #, c-format
 msgid "option \"%.50s\" is ambiguous\n"
 msgstr "オプション\"%.50s\"はあいまいです\n"
 
-#: src/argparse.c:541
+#: src/argparse.c:549
 #, c-format
 msgid "command \"%.50s\" is ambiguous\n"
 msgstr "コマンド\"%.50s\"はあいまいです\n"
 
-#: src/argparse.c:555
+#: src/argparse.c:563
 #, c-format
 msgid "invalid option \"%.50s\"\n"
 msgstr "無効なオプション \"%.50s\"\n"
 
-#: src/argparse.c:2297 src/argparse.c:2393
+#: src/argparse.c:2335 src/argparse.c:2432
 #, c-format
 msgid "Note: no default option file '%s'\n"
 msgstr "注: デフォルトオプションファイル '%s' がありません\n"
 
-#: src/argparse.c:2307 src/argparse.c:2400
+#: src/argparse.c:2345 src/argparse.c:2439
 #, c-format
 msgid "reading options from '%s'\n"
 msgstr "オプションを'%s'から読みます\n"
 
-#: src/argparse.c:2385
+#: src/argparse.c:2424
 #, c-format
 msgid "option file '%s': %s\n"
 msgstr "オプションファイル '%s': %s\n"
 
-#: src/argparse.c:2823
+#: src/argparse.c:2910
 #, c-format
 msgid "Note: ignoring option \"--%s\" due to global config\n"
 msgstr "注: グローバルコンフィグのため、オプション \"--%s\" を無視します\n"
